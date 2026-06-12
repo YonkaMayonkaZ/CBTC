@@ -1,0 +1,14 @@
+# Example 6 - RING / circle of 8 nodes (edge case)
+# Radius 40 about (50,50), Rmax 60 reaches the 2 nearest each side.
+# All nodes lie in convex position: each has an empty OUTWARD cone
+# (>180 deg) -> reaches Rmax. Clean demo of the boundary effect and
+# where shrink-back saves the most. Should stay CONNECTED (a cycle).
+8 60
+90.000 50.000
+78.284 78.284
+50.000 90.000
+21.716 78.284
+10.000 50.000
+21.716 21.716
+50.000 10.000
+78.284 21.716

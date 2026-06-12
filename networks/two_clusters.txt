@@ -1,0 +1,15 @@
+# Example 5 - TWO CLUSTERS + BRIDGE (edge case: critical connectivity link)
+# Cluster A around x=20, cluster B around x=80, single bridge node M=(50,50).
+# Rmax 40: A-M and M-B links exist, but A-B direct (>=50) does not.
+# The clusters stay connected ONLY through M -> tests that CBTC keeps the
+# critical link. Try --alpha 180 to see whether connectivity can break.
+9 40
+50 50
+15 48
+25 48
+20 58
+20 42
+75 48
+85 48
+80 58
+80 42

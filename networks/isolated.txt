@@ -1,0 +1,10 @@
+# Bonus - DEGENERATE case: one isolated node (edge case)
+# A small cluster plus a node far away that Rmax cannot reach.
+# run_cbtc must yield 0 neighbours for it; components() must report > 1.
+# Distinguishes "disconnected because of sparsity" from "algorithm bug".
+5 30
+20 20
+30 20
+25 30
+22 25
+95 5

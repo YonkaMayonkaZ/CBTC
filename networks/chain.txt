@@ -1,0 +1,10 @@
+# Example 3 - LINEAR CHAIN / collinear nodes (edge case)
+# All on a line. Interior node sees neighbours at 0 and 180 -> 180-deg gap > 150
+# -> always an alpha-gap -> every node goes to Rmax. Endpoints have one neighbour.
+6 20
+0 0
+15 0
+30 0
+45 0
+60 0
+75 0

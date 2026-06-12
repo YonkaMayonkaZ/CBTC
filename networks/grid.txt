@@ -1,0 +1,30 @@
+# Example 2 - GRID 5x5 (common, regular structure)
+# spacing 20, Rmax 25 reaches only horizontal/vertical neighbours (diagonals = 28.3 > 25)
+# Expected: 9 interior nodes -> 4 neighbours at 0/90/180/270 -> covered, low power.
+#           16 boundary nodes -> empty outward cone (>150) -> reach Rmax.
+25 25
+0 0
+20 0
+40 0
+60 0
+80 0
+0 20
+20 20
+40 20
+60 20
+80 20
+0 40
+20 40
+40 40
+60 40
+80 40
+0 60
+20 60
+40 60
+60 60
+80 60
+0 80
+20 80
+40 80
+60 80
+80 80

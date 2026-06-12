@@ -1,0 +1,11 @@
+# Example 4 - STAR / hub-and-spoke (edge case)
+# Centre at (50,50); 5 leaves around it. Rmax 45.
+# Centre sees neighbours all around -> can be covered. Each leaf has ONLY the
+# centre as neighbour -> 360-deg gap -> every leaf reaches Rmax.
+6 45
+50 50
+50 85
+85 50
+50 15
+15 50
+72 72
