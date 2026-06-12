@@ -1,0 +1,9 @@
+network            : networks/isolated.txt
+nodes / Rmax       : 5 / 30.00
+alpha              : 120.0 deg  (<= 5pi/6, connectivity guaranteed)
+shrink-back        : off
+avg node degree    : 2.40
+min / max degree   : 0 / 3
+max radius used    : 11.18  (of Rmax 30.00)
+total energy (Sr^2): 464.0
+components         : 2  -> DISCONNECTED

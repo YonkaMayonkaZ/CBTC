@@ -1,4 +1,2 @@
 cbtc 
-*.edges
-*.png
-.gitignore
+*.sh

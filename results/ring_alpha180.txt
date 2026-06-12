@@ -1,0 +1,9 @@
+network            : networks/ring.txt
+nodes / Rmax       : 8 / 60.00
+alpha              : 180.0 deg  (> 5pi/6, connectivity NOT guaranteed)
+shrink-back        : off
+avg node degree    : 4.00
+min / max degree   : 4 / 4
+max radius used    : 56.57  (of Rmax 60.00)
+total energy (Sr^2): 25599.8
+components         : 1  -> CONNECTED

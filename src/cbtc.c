@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <sys/stat.h>            /* mkdir() for the edges/ output folder */
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -324,9 +325,18 @@ int main(int argc, char **argv)
                comp == 1 ? "CONNECTED" : "DISCONNECTED");
     }
 
-    /* ---- optional edge export for plotting ---- */
+    /* ---- optional edge export for plotting (saved inside edges/) ---- */
     if (edgefile) {
-        FILE *fe = fopen(edgefile, "w");
+        char path[600];
+        /* if the user gave a bare file name, put it under edges/ ; if they
+           gave a path with a '/', respect it as-is */
+        if (strchr(edgefile, '/') == NULL) {
+            mkdir("edges", 0777);                 /* create edges/ if missing */
+            snprintf(path, sizeof path, "edges/%s", edgefile);
+        } else {
+            snprintf(path, sizeof path, "%s", edgefile);
+        }
+        FILE *fe = fopen(path, "w");
         if (fe) {
             int v;
             fprintf(fe, "# u v x_u y_u x_v y_v\n");
@@ -337,7 +347,7 @@ int main(int argc, char **argv)
                                 u, v, nodes[u].x, nodes[u].y,
                                 nodes[v].x, nodes[v].y);
             fclose(fe);
-            fprintf(stderr, "edges written to %s\n", edgefile);
+            fprintf(stderr, "edges written to %s\n", path);
         }
     }
     return 0;

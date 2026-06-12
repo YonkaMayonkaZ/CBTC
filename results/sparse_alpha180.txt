@@ -1,0 +1,9 @@
+network            : networks/sparse.txt
+nodes / Rmax       : 14 / 45.00
+alpha              : 180.0 deg  (> 5pi/6, connectivity NOT guaranteed)
+shrink-back        : off
+avg node degree    : 4.00
+min / max degree   : 2 / 6
+max radius used    : 44.72  (of Rmax 45.00)
+total energy (Sr^2): 19125.0
+components         : 1  -> CONNECTED

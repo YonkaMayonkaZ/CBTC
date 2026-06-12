@@ -1,0 +1,9 @@
+network            : networks/chain.txt
+nodes / Rmax       : 6 / 20.00
+alpha              : 180.0 deg  (> 5pi/6, connectivity NOT guaranteed)
+shrink-back        : ON
+avg node degree    : 1.67
+min / max degree   : 1 / 2
+max radius used    : 15.00  (of Rmax 20.00)
+total energy (Sr^2): 1350.0
+components         : 1  -> CONNECTED

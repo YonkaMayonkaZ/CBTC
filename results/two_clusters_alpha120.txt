@@ -1,0 +1,9 @@
+network            : networks/two_clusters.txt
+nodes / Rmax       : 9 / 40.00
+alpha              : 120.0 deg  (<= 5pi/6, connectivity guaranteed)
+shrink-back        : off
+avg node degree    : 4.44
+min / max degree   : 4 / 8
+max radius used    : 35.06  (of Rmax 40.00)
+total energy (Sr^2): 8801.0
+components         : 1  -> CONNECTED

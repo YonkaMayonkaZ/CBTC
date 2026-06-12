@@ -8,12 +8,18 @@ Draws two panels side by side:
 
 Usage:
     # first produce the edges with the C program:
-    ./cbtc networks/grid.txt --edges grid.edges
-    # then plot:
-    python3 plot_topology.py networks/grid.txt grid.edges [out.png]
+    ./cbtc networks/grid.txt --alpha 180 --edges grid.edges
+    # then plot (the output name is built automatically):
+    python3 plot_topology.py networks/grid.txt grid.edges --alpha 180
+        -> saves  figures/grid_alpha180.png  (the figures/ folder is created if needed)
+
+    Options:
+      --alpha DEG   the alpha used (only for the file name and the title)
+      --out  NAME   force a specific output file name (overrides auto-naming)
 
 Needs: matplotlib  (pip install matplotlib)
 """
+import os
 import sys
 import math
 import matplotlib
@@ -78,12 +84,48 @@ def draw(ax, pts, edges, title):
 
 
 def main():
-    if len(sys.argv) < 3:
-        print("usage: python3 plot_topology.py <network.txt> <edges.txt> [out.png]")
+    args = sys.argv[1:]
+    if len(args) < 2:
+        print("usage: python3 plot_topology.py <network.txt> <edges.txt> "
+              "[--alpha DEG] [--out NAME.png]")
         sys.exit(1)
 
-    net, edgefile = sys.argv[1], sys.argv[2]
-    out = sys.argv[3] if len(sys.argv) > 3 else "topology.png"
+    net, edgefile = args[0], args[1]
+    alpha, out = None, None
+
+    # parse the optional flags (and keep the old positional out.png working)
+    i = 2
+    while i < len(args):
+        a = args[i]
+        if a == "--alpha" and i + 1 < len(args):
+            alpha = args[i + 1]; i += 2
+        elif a == "--out" and i + 1 < len(args):
+            out = args[i + 1]; i += 2
+        elif not a.startswith("-"):          # backward-compatible positional name
+            out = a; i += 1
+        else:
+            i += 1
+
+    # tidy the alpha string: 180 (not 180.0), but keep e.g. 137.5
+    alpha_str = None
+    if alpha is not None:
+        try:
+            f = float(alpha)
+            alpha_str = str(int(f)) if f.is_integer() else str(f)
+        except ValueError:
+            alpha_str = str(alpha)
+
+    # build the output name from the network name + alpha, saved inside figures/
+    # e.g. figures/grid_alpha180.png
+    if out is None:
+        base = os.path.splitext(os.path.basename(net))[0]
+        fname = f"{base}_alpha{alpha_str}.png" if alpha_str else f"{base}.png"
+        out = os.path.join("figures", fname)
+
+    # make sure the destination folder exists
+    outdir = os.path.dirname(out)
+    if outdir:
+        os.makedirs(outdir, exist_ok=True)
 
     rmax, pts = load_network(net)
     before = full_power_edges(pts, rmax)
@@ -91,8 +133,10 @@ def main():
 
     fig, (axL, axR) = plt.subplots(1, 2, figsize=(11, 5.4))
     draw(axL, pts, before, f"Full power (Rmax={rmax:g})")
-    draw(axR, pts, after, "After CBTC")
-    fig.suptitle(net, fontsize=11)
+    draw(axR, pts, after,
+         "After CBTC" + (f"  (alpha={alpha_str} deg)" if alpha_str else ""))
+    fig.suptitle(net + (f"   (alpha = {alpha_str} deg)" if alpha_str else ""),
+                 fontsize=11)
     fig.tight_layout()
     fig.savefig(out, dpi=130)
     print("saved", out)

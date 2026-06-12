@@ -1,0 +1,20 @@
+# SPARSE network - 14 nodes spread over a large area (low spatial density)
+# Rmax 45 is large relative to the spacing, so the full-power graph has many
+# long links. CBTC keeps only enough power to cover each node's cones, so the
+# difference in transmission radius / energy (full power vs CBTC) is large and
+# clearly visible. Good also for sweeping alpha (120 / 150 / 180) to compare.
+14 45
+10 10
+45 20
+80 15
+110 35
+95 65
+60 55
+30 45
+15 80
+50 90
+85 95
+115 80
+75 30
+40 70
+105 55
