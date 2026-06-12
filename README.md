@@ -180,4 +180,4 @@ shrink-back πρέπει πάντα να συνοδεύεται από τον έ
 - Karl & Willig, *Protocols and Architectures for Wireless Sensor Networks*, Κεφ. 10
   (§10.1 κίνητρο, §10.2.2 critical parameters / magic numbers, §10.2.3 cone-based topology
   control).
-- Αναλυτική επεξήγηση κώδικα: `CBTC_Code_Guide_GR.md`.
+
