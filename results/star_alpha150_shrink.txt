@@ -5,5 +5,5 @@ shrink-back        : ON
 avg node degree    : 2.33
 min / max degree   : 1 / 5
 max radius used    : 35.00  (of Rmax 45.00)
-total energy (Sr^2): 5634.0
+total energy (Sr^2): 7093.0
 components         : 1  -> CONNECTED

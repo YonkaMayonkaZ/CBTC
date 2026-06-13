@@ -2,8 +2,8 @@ network            : networks/random100.txt
 nodes / Rmax       : 100 / 22.00
 alpha              : 180.0 deg  (> 5pi/6, connectivity NOT guaranteed)
 shrink-back        : ON
-avg node degree    : 5.12
-min / max degree   : 1 / 11
+avg node degree    : 5.90
+min / max degree   : 3 / 11
 max radius used    : 21.76  (of Rmax 22.00)
-total energy (Sr^2): 14571.5
+total energy (Sr^2): 18845.8
 components         : 1  -> CONNECTED

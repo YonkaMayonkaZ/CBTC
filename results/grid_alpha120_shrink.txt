@@ -2,8 +2,8 @@ network            : networks/grid.txt
 nodes / Rmax       : 25 / 25.00
 alpha              : 120.0 deg  (<= 5pi/6, connectivity guaranteed)
 shrink-back        : ON
-avg node degree    : 2.88
-min / max degree   : 1 / 4
+avg node degree    : 3.20
+min / max degree   : 2 / 4
 max radius used    : 20.00  (of Rmax 25.00)
 total energy (Sr^2): 10000.0
 components         : 1  -> CONNECTED
