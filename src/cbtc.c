@@ -5,8 +5,6 @@
  *   wireless multi-hop networks", Li, Halpern, Bahl, Wang, Wattenhofer,
  *   IEEE/ACM Trans. Networking 13(1), 2005.
  *
- *   Course: Mobile & Pervasive Computing (Univ. of Thessaly).
- *
  *   What it does:
  *     1. loads a network (node coordinates) from a text file,
  *     2. runs CBTC(alpha) at every node (distributed rule, simulated serially),
