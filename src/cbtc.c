@@ -152,40 +152,71 @@ static void run_cbtc(int u, double alpha)
 }
 
 /* ------------------------------------------------------------- shrink-back
+   (CBTC paper, Section III-A "The shrink-back operation", Theorem III.1)
 
-   A boundary node that reached Rmax still with a gap may be transmitting at
-   max power needlessly.  Drop the farthest neighbours (they were added last,
-   so they sit at the tail of the list) as long as doing so does not OPEN a
-   new alpha-gap that was not present already.
+   A node u is a BOUNDARY node if, at the end of the growing phase, it still
+   has an alpha-gap (so it broadcasts at maximum power).  The shrink-back phase
+   lets such a node lower its power, *as long as it does not reduce its cone
+   coverage*.  Faithfully to the paper: every neighbour is tagged with the
+   power (here: distance) at which it was first discovered, and we look for the
+   SMALLEST power level (= shortest prefix, since neighbours are stored by
+   increasing distance) whose coverage equals the coverage at maximum power:
+
+        find the minimum j  such that  cover_alpha(dir_j) == cover_alpha(dir_k)
+
+   Only neighbours that provide *redundant* cone coverage are dropped, which is
+   exactly why connectivity is preserved (Theorem III.1).
 */
+
+/* angular resolution used to represent cover_alpha (0.1 degrees per bin) */
+#define COVER_BINS 3600
+
+/* cov[b] = 1 iff the centre angle of bin b lies within alpha/2 of some
+   neighbour direction in dirs[0..n-1] (i.e. that direction is covered). */
+static void cover_alpha(const double *dirs, int n, double alpha, char *cov)
+{
+    double h = alpha / 2.0;
+    int b, i;
+    for (b = 0; b < COVER_BINS; b++) {
+        double ang = (b + 0.5) * (2.0 * M_PI / COVER_BINS);
+        cov[b] = 0;
+        for (i = 0; i < n; i++) {
+            double d = fabs(ang - dirs[i]);
+            if (d > M_PI) d = 2.0 * M_PI - d;      /* shortest angular distance */
+            if (d <= h) { cov[b] = 1; break; }
+        }
+    }
+}
+
 static void shrink_back(int u, double alpha)
 {
-    double angles[MAXN];
-    int i;
+    int    n = nodes[u].nbr_count;
+    double dirs[MAXN];
+    char   full[COVER_BINS], pref[COVER_BINS];
+    int    i, j, b;
 
-    while (nodes[u].nbr_count > 1) {
-        int n = nodes[u].nbr_count;
+    if (n <= 1) return;                     /* nothing to shrink */
 
-        /* gap with the farthest neighbour removed */
-        for (i = 0; i < n - 1; i++) angles[i] = nodes[u].nbr_angle[i];
-        int gap_without = has_alpha_gap(angles, n - 1, alpha);
+    for (i = 0; i < n; i++) dirs[i] = nodes[u].nbr_angle[i];
 
-        /* gap with it kept */
-        for (i = 0; i < n; i++) angles[i] = nodes[u].nbr_angle[i];
-        int gap_with = has_alpha_gap(angles, n, alpha);
+    /* coverage at maximum power (all discovered neighbours) */
+    cover_alpha(dirs, n, alpha, full);
 
-        /* keep removing only while removal does not make things worse:
-           i.e. the gap status is unchanged (a gap that already existed) */
-        if (gap_without && !gap_with)
-            break;                       /* removing it would open a NEW gap */
-
-        nodes[u].nbr_count--;            /* drop the farthest neighbour      */
-        if (nodes[u].nbr_count > 0)
-            nodes[u].radius =
-                dist(u, nodes[u].nbr[nodes[u].nbr_count - 1]);
-        else
-            nodes[u].radius = 0.0;
+    /* smallest prefix (lowest power) whose coverage equals the full coverage.
+       Neighbours are stored by increasing distance, so a prefix corresponds to
+       a lower power level; coverage grows monotonically with the prefix, so the
+       first prefix that matches `full` is the minimum-power one. */
+    for (j = 1; j <= n; j++) {
+        int equal = 1;
+        cover_alpha(dirs, j, alpha, pref);
+        for (b = 0; b < COVER_BINS; b++)
+            if (pref[b] != full[b]) { equal = 0; break; }
+        if (equal) break;
     }
+
+    /* keep the first j neighbours, drop the redundant farther ones */
+    nodes[u].nbr_count = j;
+    nodes[u].radius = dist(u, nodes[u].nbr[j - 1]);
 }
 
 /* --------------------------------------------------------------- graph + bfs */
